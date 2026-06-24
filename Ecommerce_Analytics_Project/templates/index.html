@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Bug Bounty Scanner</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<h1>Bug Bounty Vulnerability Scanner</h1>
+
+<form method="POST">
+<input type="text" name="url" placeholder="Enter website URL" required>
+<button type="submit">Scan</button>
+</form>
+
+{% if results %}
+
+<h2>Scan Results</h2>
+
+<h3 class="
+{% if results.risk == 'LOW RISK' %}
+risk-low
+{% elif results.risk == 'MEDIUM RISK' %}
+risk-medium
+{% else %}
+risk-high
+{% endif %}
+">
+Risk Level: {{results.risk}}
+</h3>
+
+<p><b>SQL Injection:</b> {{results.sql}}</p>
+
+<p><b>XSS:</b> {{results.xss}}</p>
+
+<h3>Security Headers</h3>
+
+<ul>
+{% for h in results.headers %}
+<li>{{h}}</li>
+{% endfor %}
+</ul>
+
+<h3>Open Ports</h3>
+<p>{{results.ports}}</p>
+
+<h3>Directories Found</h3>
+<p>{{results.dirs}}</p>
+
+{% endif %}
+
+</body>
+</html>
